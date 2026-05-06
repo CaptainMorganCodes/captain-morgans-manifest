@@ -28,6 +28,5 @@ export const projects: Project[] = [
       frontend: ["React", "TypeScript"],
       backend: ["Django", "Python", "REST Framework"],
     },
-    repoUrl: "https://github.com/CaptainMorganCodes/trip-signup-portal",
   },
 ];
