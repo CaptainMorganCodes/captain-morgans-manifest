@@ -157,12 +157,20 @@ export default function Home() {
           </p>
         </section>
 
+        <div className="flex justify-center mb-16">
+          <div className="w-16 border-t-2 border-zinc-300 dark:border-zinc-600" />
+        </div>
+
         <section className="mb-16">
           <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 mb-6">
             Skills
           </h2>
           <SkillsDividers />
         </section>
+
+        <div className="flex justify-center mb-16">
+          <div className="w-16 border-t-2 border-zinc-300 dark:border-zinc-600" />
+        </div>
 
         <section>
           <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 mb-10">
