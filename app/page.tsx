@@ -1,4 +1,8 @@
 import { projects, type Project, type ProjectStatus } from "@/lib/projects";
+import { SkillsDividers } from "@/components/skills-layouts";
+
+const bio =
+  "Software Engineer with six years of experience building fast, clean, reliable code that drives business outcomes. Proven ability to deliver quality solutions that are both innovative in design and future-proof, with expertise in React, TypeScript, JavaScript, Node.js, and AWS cloud platforms. Passionate about crafting high-quality digital products using cutting-edge technologies while mentoring teams and establishing technical frameworks for ongoing growth and success.";
 
 const statusConfig: Record<ProjectStatus, { label: string; className: string }> = {
   complete: {
@@ -15,18 +19,28 @@ const statusConfig: Record<ProjectStatus, { label: string; className: string }> 
   },
 };
 
-function TechGroup({ label, tags }: { label: string; tags: string[] }) {
+function TagGroup({
+  label,
+  tags,
+  labelWidth = "w-16",
+}: {
+  label: string;
+  tags: string[];
+  labelWidth?: string;
+}) {
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-xs text-zinc-400 w-16 shrink-0">{label}</span>
-      {tags.map((tag) => (
-        <span
-          key={tag}
-          className="text-xs px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
-        >
-          {tag}
-        </span>
-      ))}
+    <div className="flex items-start gap-2 flex-wrap">
+      <span className={`text-xs text-zinc-700 dark:text-zinc-300 ${labelWidth} shrink-0 pt-0.5`}>{label}</span>
+      <div className="flex flex-wrap gap-1.5">
+        {tags.map((tag) => (
+          <span
+            key={tag}
+            className="text-xs px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -52,9 +66,9 @@ function ProjectCard({ project }: { project: Project }) {
         {project.writeup}
       </p>
       <div className="flex flex-col gap-2 mb-6">
-        {frontend && <TechGroup label="Frontend" tags={frontend} />}
-        {backend && <TechGroup label="Backend" tags={backend} />}
-        {other && <TechGroup label="Other" tags={other} />}
+        {frontend && <TagGroup label="Frontend" tags={frontend} />}
+        {backend && <TagGroup label="Backend" tags={backend} />}
+        {other && <TagGroup label="Other" tags={other} />}
       </div>
       <div className="flex items-center gap-4">
         {project.repoUrl ? (
@@ -127,15 +141,31 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <main className="max-w-2xl mx-auto px-6 py-20">
-        <header className="mb-20">
+        <header className="mb-16">
           <h1 className="text-4xl font-bold tracking-tight mb-3">Morgan</h1>
           <p className="text-zinc-500 dark:text-zinc-400 text-lg">
-            Software Developer
+            Software Engineer
           </p>
         </header>
 
+        <section className="mb-16">
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 mb-6">
+            About
+          </h2>
+          <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+            {bio}
+          </p>
+        </section>
+
+        <section className="mb-16">
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 mb-6">
+            Skills
+          </h2>
+          <SkillsDividers />
+        </section>
+
         <section>
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-400 mb-10">
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-600 dark:text-zinc-400 mb-10">
             Projects
           </h2>
           <div className="flex flex-col">

@@ -76,10 +76,10 @@ describe("Home", () => {
 
   it("renders tech stack tags", () => {
     render(<Home />);
-    expect(screen.getByText("React")).toBeInTheDocument();
-    expect(screen.getByText("TypeScript")).toBeInTheDocument();
+    expect(screen.getAllByText("React").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("TypeScript").length).toBeGreaterThan(0);
     expect(screen.getByText("Django")).toBeInTheDocument();
-    expect(screen.getByText("Python")).toBeInTheDocument();
+    expect(screen.getAllByText("Python").length).toBeGreaterThan(0);
   });
 
   it("renders the GitHub profile link in the footer", () => {
