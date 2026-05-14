@@ -6,6 +6,8 @@ export interface Project {
   description: string;
   writeup: string;
   status: ProjectStatus;
+  /** Optional. Display freely — e.g. "MMXXV" or "2025". */
+  year?: string;
   techStack: {
     frontend?: string[];
     backend?: string[];
@@ -24,6 +26,7 @@ export const projects: Project[] = [
     writeup:
       "Originally built as a technical interview challenge, this project is being polished into a production-quality portfolio piece. The frontend is a React and TypeScript SPA that communicates with a Django REST API. A key aspect of the implementation is the payment integration with a mock legacy API, requiring careful abstraction to simulate real-world constraints common in enterprise environments.",
     status: "in-progress",
+    year: "MMXXV",
     techStack: {
       frontend: ["React", "TypeScript"],
       backend: ["Django", "Python", "REST Framework"],

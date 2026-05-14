@@ -10,6 +10,7 @@ jest.mock("@/lib/projects", () => ({
       description: "A public project description.",
       writeup: "Public project writeup with more detail.",
       status: "complete",
+      year: "MMXXIV",
       techStack: {
         frontend: ["React", "TypeScript"],
         backend: ["Django"],
@@ -30,11 +31,11 @@ jest.mock("@/lib/projects", () => ({
 }));
 
 describe("Home", () => {
-  it("renders the portfolio heading", () => {
+  it("renders the masthead heading", () => {
     render(<Home />);
-    expect(
-      screen.getByRole("heading", { level: 1 })
-    ).toHaveTextContent("Morgan");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      /Captain Morgan.+Manifest/i
+    );
   });
 
   it("renders all project titles", () => {
@@ -53,9 +54,9 @@ describe("Home", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows a GitHub link for projects with a repoUrl", () => {
+  it("shows a 'view the charts' link for projects with a repoUrl", () => {
     render(<Home />);
-    const link = screen.getByRole("link", { name: /view on github/i });
+    const link = screen.getByRole("link", { name: /view the charts/i });
     expect(link).toHaveAttribute(
       "href",
       "https://github.com/CaptainMorganCodes/public-project"
@@ -63,46 +64,46 @@ describe("Home", () => {
     expect(link).toHaveAttribute("target", "_blank");
   });
 
-  it("shows a Private label for projects without a repoUrl", () => {
+  it("shows 'charts sealed' for projects without a repoUrl", () => {
     render(<Home />);
-    expect(screen.getByText("Private")).toBeInTheDocument();
+    expect(screen.getByText(/charts sealed/i)).toBeInTheDocument();
   });
 
-  it("renders the correct status badges", () => {
+  it("renders the correct nautical status labels", () => {
     render(<Home />);
-    expect(screen.getByText("Complete")).toBeInTheDocument();
-    expect(screen.getByText("In Progress")).toBeInTheDocument();
+    expect(screen.getByText(/MOORED/)).toBeInTheDocument();
+    expect(screen.getByText(/SAILING/)).toBeInTheDocument();
   });
 
-  it("renders tech stack tags", () => {
+  it("renders tech stack", () => {
     render(<Home />);
-    expect(screen.getAllByText("React").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("TypeScript").length).toBeGreaterThan(0);
-    expect(screen.getByText("Django")).toBeInTheDocument();
-    expect(screen.getAllByText("Python").length).toBeGreaterThan(0);
+    // Stack is rendered as a single uppercase joined line per project.
+    expect(screen.getByText(/REACT.*TYPESCRIPT.*DJANGO/)).toBeInTheDocument();
+    expect(screen.getByText(/PYTHON/)).toBeInTheDocument();
   });
 
-  it("renders the GitHub profile link in the footer", () => {
+  it("renders the GitHub profile link in the sidebar", () => {
     render(<Home />);
-    const footerLink = screen.getByRole("link", {
-      name: /github\.com\/captainmorgancodes/i,
+    const link = screen.getByRole("link", {
+      name: /github.*CaptainMorganCodes/i,
     });
-    expect(footerLink).toHaveAttribute(
+    expect(link).toHaveAttribute(
       "href",
       "https://github.com/CaptainMorganCodes"
     );
   });
 
-  it("does not show a Live Demo link when liveUrl is absent", () => {
+  it("does not show an active 'board the ship' link when liveUrl is absent", () => {
     render(<Home />);
+    // Both test projects lack liveUrl, so no anchor element should match.
     expect(
-      screen.queryByRole("link", { name: /live demo/i })
+      screen.queryByRole("link", { name: /board the ship/i })
     ).not.toBeInTheDocument();
   });
 
-  it("shows a Live Demo link when liveUrl is present", () => {
+  it("shows a 'board the ship' link when liveUrl is present", () => {
     jest.resetModules();
-    jest.mock("@/lib/projects", () => ({
+    jest.doMock("@/lib/projects", () => ({
       projects: [
         {
           id: "live-project",
@@ -116,10 +117,30 @@ describe("Home", () => {
         },
       ],
     }));
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { default: HomeFresh } = require("@/app/page");
     render(<HomeFresh />);
     expect(
-      screen.getByRole("link", { name: /live demo/i })
+      screen.getByRole("link", { name: /board the ship/i })
+    ).toBeInTheDocument();
+  });
+
+  it("renders the masthead 'being the' framing", () => {
+    render(<Home />);
+    expect(screen.getByText(/BEING THE/i)).toBeInTheDocument();
+  });
+
+  it("renders all four section headings", () => {
+    render(<Home />);
+    expect(screen.getByRole("heading", { name: /About/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /The Trades/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /The Manifest/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /Send Word/i })
     ).toBeInTheDocument();
   });
 });
